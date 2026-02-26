@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description"
+    content="GKj's — Geez Kick Juicy Juice. Ultra-premium fruit beverages crafted for the bold. Freshness Delivered. Immunity Elevated.">
+  <meta name="keywords"
+    content="GKJ, Geez Kick, Juicy Juice, premium fruit beverage, juice, apple, orange, grape, mango, mixed fruit">
+  <meta property="og:title" content="GKj's — Geez Kick Juicy Juice">
+  <meta property="og:description" content="Freshness Delivered. Immunity Elevated. Ultra-premium fruit beverages.">
+  <meta property="og:image" content="/gkk1.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>GKj's — Geez Kick Juicy Juice | Ultra-Premium Fruit Beverage</title>
+  <link rel="icon" type="image/svg+xml" href="/vite.svg">
+
+  <!-- Google Fonts — Outfit (bold upright sans-serif) + Playfair Display (editorial) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="./src/style.css">
+
+  <!-- Howler.js for premium audio -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PRELOADER                                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="preloader" aria-label="Loading">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <div class="preloader-logo" aria-hidden="true">GKj's</div>
+        <div class="preloader-logo-fill" id="preloader-fill">GKj's</div>
+      </div>
+      <div class="preloader-bar-track">
+        <div class="preloader-bar-fill" id="preloader-bar"></div>
+      </div>
+      <div class="preloader-status" id="preloader-status">Extracting Juice 0%</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CUSTOM CURSOR + PARTICLE TRAIL CANVAS       -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="cursor-trail-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- THREE.JS COSMIC BACKGROUND                  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="webgl-bg" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- HERO FRAME SEQUENCE CANVAS                  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- UI LAYER                                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="ui-layer">
+
+    <!-- ─── NAVIGATION ─── -->
+    <header id="main-nav">
+      <a href="#hero" class="nav-logo interactable">GKj's</a>
+      <div class="nav-links">
+        <a href="#hero" class="nav-link interactable">Home</a>
+        <a href="#flavors" class="nav-link interactable">Flavors</a>
+        <a href="#story" class="nav-link interactable">Story</a>
+        <a href="#shop" class="nav-link interactable">Shop</a>
+        <div class="nav-divider"></div>
+        <button class="nav-icon-btn interactable" id="search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+          </svg>
+        </button>
+        <button class="nav-icon-btn interactable" id="account-btn" aria-label="Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+      </div>
+      <div id="cart-btn" class="cart-container interactable" aria-label="Shopping cart">
+        <svg class="cart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <div id="cart-count" class="cart-count">0</div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SCROLL CONTENT (Lenis target)              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <main id="scroll-container">
+
+      <!-- ─── HERO SECTION ─── -->
+      <section id="hero">
+        <div class="hero-content">
+          <div class="hero-text-block">
+            <p class="hero-eyebrow"><span class="eyebrow-line"></span>Ultra-Premium Fruit Beverage</p>
+            <h1 class="hero-title">Geez Kick<br>Juicy Juice</h1>
+            <p class="hero-subtitle">Freshness Delivered. Immunity Elevated.</p>
+          </div>
+
+        </div>
+
+        <div class="scroll-indicator interactable" id="scroll-indicator">
+          <div class="scroll-line"></div>
+          <span class="scroll-label">Scroll to Explore</span>
+        </div>
+      </section>
+
+      <!-- ─── FLAVORS GRID ─── -->
+      <section id="flavors">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h2 class="section-title">The Collection</h2>
+          <p class="section-sub">Five explosive flavors. Zero compromise.</p>
+        </div>
+        <div class="flavors-grid" id="flavors-grid">
+          <!-- Apple -->
+          <div class="flavor-card interactable" data-flavor="0">
+            <div class="flavor-card-bg" style="background-image:url('/gkk1.jpg')"></div>
+            <div class="flavor-card-overlay"></div>
+            <div class="flavor-card-glow" style="--accent:#00FF85"></div>
+            <div class="flavor-card-content">
+              <span class="card-seq">Sequence 01</span>
+              <h3 class="card-name">Apple Surge</h3>
+              <p class="card-desc">Crisp. Bold. Electric.</p>
+              <div class="card-accent" style="background:#00FF85"></div>
+            </div>
+            <div class="card-frame-anim" data-start="1" data-end="36"></div>
+          </div>
+          <!-- Orange -->
+          <div class="flavor-card interactable" data-flavor="1">
+            <div class="flavor-card-bg" style="background-image:url('/gkk2.jpg')"></div>
+            <div class="flavor-card-overlay"></div>
+            <div class="flavor-card-glow" style="--accent:#FF9F1C"></div>
+            <div class="flavor-card-content">
+              <span class="card-seq">Sequence 02</span>
+              <h3 class="card-name">Orange Kick</h3>
+              <p class="card-desc">Citrus overload. Pure fire.</p>
+              <div class="card-accent" style="background:#FF9F1C"></div>
+            </div>
+            <div class="card-frame-anim" data-start="37" data-end="72"></div>
+          </div>
+          <!-- Grapes -->
+          <div class="flavor-card interactable" data-flavor="2">
+            <div class="flavor-card-bg" style="background-image:url('/gkk3.jpg')"></div>
+            <div class="flavor-card-overlay"></div>
+            <div class="flavor-card-glow" style="--accent:#8A2BE2"></div>
+            <div class="flavor-card-content">
+              <span class="card-seq">Sequence 03</span>
+              <h3 class="card-name">Grape Nebula</h3>
+              <p class="card-desc">Deep space. Deep flavor.</p>
+              <div class="card-accent" style="background:#8A2BE2"></div>
+            </div>
+            <div class="card-frame-anim" data-start="73" data-end="108"></div>
+          </div>
+          <!-- Mango -->
+          <div class="flavor-card interactable" data-flavor="3">
+            <div class="flavor-card-bg" style="background-image:url('/gkk4.jpg')"></div>
+            <div class="flavor-card-overlay"></div>
+            <div class="flavor-card-glow" style="--accent:#FFEA00"></div>
+            <div class="flavor-card-content">
+              <span class="card-seq">Sequence 04</span>
+              <h3 class="card-name">Mango Solar</h3>
+              <p class="card-desc">Tropical supernova energy.</p>
+              <div class="card-accent" style="background:#FFEA00"></div>
+            </div>
+            <div class="card-frame-anim" data-start="109" data-end="144"></div>
+          </div>
+          <!-- Mixed -->
+          <div class="flavor-card interactable" data-flavor="4">
+            <div class="flavor-card-bg" style="background-image:url('/gkk5.jpg')"></div>
+            <div class="flavor-card-overlay"></div>
+            <div class="flavor-card-glow" style="--accent:#FF2D00"></div>
+            <div class="flavor-card-content">
+              <span class="card-seq">Sequence 05</span>
+              <h3 class="card-name">Supernova Mix</h3>
+              <p class="card-desc">All flavors. Maximum impact.</p>
+              <div class="card-accent" style="background:#FF2D00"></div>
+            </div>
+            <div class="card-frame-anim" data-start="145" data-end="182"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── OUR KICK / STORY ─── -->
+      <section id="story">
+        <div class="story-bg-orbs">
+          <div class="story-orb" style="--orb-color:#8A2BE2;--orb-size:500px;top:10%;left:-10%"></div>
+          <div class="story-orb" style="--orb-color:#FF2D00;--orb-size:400px;bottom:5%;right:-5%"></div>
+          <div class="story-orb" style="--orb-color:#00FF85;--orb-size:300px;top:50%;left:60%"></div>
+        </div>
+        <div class="story-content">
+          <span class="section-number">02</span>
+          <h2 class="story-title" id="story-title">Extracted from<br>the stars.</h2>
+          <p class="story-desc" id="story-desc">We didn't just blend juice. We engineered a
+            hyper-concentrated nectar under zero-gravity to preserve maximum aerodynamic kick.
+            No artificial gravity. No artificial flavors. Five flavors. One universe.
+            Every drop is a collision of real fruit and cosmic energy — bottled at peak ripeness
+            and sealed under pressure for an experience that hits different.</p>
+          <div class="story-stats">
+            <div class="story-stat">
+              <span class="stat-num">100%</span>
+              <span class="stat-lbl">Natural Ingredients</span>
+            </div>
+            <div class="story-stat">
+              <span class="stat-num">5</span>
+              <span class="stat-lbl">Explosive Flavors</span>
+            </div>
+            <div class="story-stat">
+              <span class="stat-num">0</span>
+              <span class="stat-lbl">Artificial Colors</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── SHOP ─── -->
+      <section id="shop">
+        <div class="shop-container">
+          <div class="section-header">
+            <span class="section-number">03</span>
+            <h2 class="section-title">Grab Yours</h2>
+            <p class="section-sub">Free delivery on orders over $20</p>
+          </div>
+          <div class="shop-grid" id="shop-grid">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ─── FOOTER ─── -->
+    <footer id="site-footer">
+      <div class="footer-inner">
+        <div class="footer-logo">GKj's</div>
+        <p class="footer-copy">&copy; 2026 Geez Kick Juicy Juice — Ultra-Premium Fruit Beverage</p>
+        <div class="footer-links">
+          <a href="#" class="interactable">Privacy</a>
+          <a href="#" class="interactable">Terms</a>
+          <a href="#" class="interactable">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- FULL PAGE CART OVERLAY                      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="cart-overlay" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+    <div class="cart-backdrop" id="cart-backdrop"></div>
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h2 class="cart-title">Your Collection</h2>
+        <button class="cart-close interactable" id="cart-close" aria-label="Close cart">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="cart-body">
+        <div class="cart-items" id="cart-items-list">
+          <!-- Dynamically populated -->
+          <div class="cart-empty-msg">Your collection is empty. Explore our flavors to add items.</div>
+        </div>
+
+        <div class="cart-checkout-section">
+          <div class="cart-summary">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span>FREE</span>
+            </div>
+            <div class="summary-total">
+              <span>Total</span>
+              <span id="cart-total">$0.00</span>
+            </div>
+          </div>
+
+          <div class="payment-methods">
+            <h3 class="payment-title">Payment Method</h3>
+            <div class="payment-options">
+              <label class="payment-option interactable">
+                <input type="radio" name="payment" value="visa" checked>
+                <div class="payment-box">
+                  <span class="payment-icon">💳</span>
+                  <span class="payment-name">Visa / Card</span>
+                </div>
+              </label>
+              <label class="payment-option interactable">
+                <input type="radio" name="payment" value="mpesa">
+                <div class="payment-box">
+                  <span class="payment-icon">📱</span>
+                  <span class="payment-name">M-Pesa</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button class="cta-btn interactable" id="hero-cta-btn">GRAB YOURS →</button>
+          <div class="hero-footer-links">
+            <button class="footer-link interactable" id="track-order-btn">Track Order</button>
+            <button class="footer-link interactable" id="support-btn">Support</button>
+            <button class="footer-link interactable" id="community-btn">Community</button>
+          </div>
+          <button class="checkout-btn interactable" id="checkout-btn">
+            <span class="btn-text">Confirm & Pay</span>
+            <div class="btn-glow"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PRODUCT MODAL                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="product-modal" role="dialog" aria-modal="true" aria-label="Product details">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-glow" id="modal-glow"></div>
+
+      <!-- 360° Inspection Area -->
+      <div class="modal-visual" id="modal-visual">
+        <div class="modal-can-container" id="modal-can-container">
+          <img id="modal-can-img" class="modal-can-img" src="/gkk1.jpg" alt="Product" draggable="false">
+          <div class="modal-rim-highlight" id="modal-rim"></div>
+          <div class="modal-condensation-drip" id="modal-drip"></div>
+        </div>
+        <span class="modal-drag-hint">⟵ Drag to Inspect ⟶</span>
+      </div>
+
+      <!-- Product Details -->
+      <div class="modal-details">
+        <span class="modal-edition" id="modal-edition">Sequence 01</span>
+        <h2 class="modal-title" id="modal-title">Apple Surge</h2>
+        <p class="modal-story" id="modal-story">Crisp. Bold. Electric. Absolute peak fruit energy, distilled for
+          maximum impact.</p>
+
+        <div class="modal-nutrition" id="modal-nutrition">
+          <div class="nutrition-item">
+            <div class="nutrition-val" id="stat-cal">120</div>
+            <div class="nutrition-lbl">Calories</div>
+          </div>
+          <div class="nutrition-item">
+            <div class="nutrition-val">100%</div>
+            <div class="nutrition-lbl">Natural</div>
+          </div>
+          <div class="nutrition-item">
+            <div class="nutrition-val">500ml</div>
+            <div class="nutrition-lbl">Volume</div>
+          </div>
+          <div class="nutrition-item">
+            <div class="nutrition-val">0g</div>
+            <div class="nutrition-lbl">Added Sugar</div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="shop-now-btn interactable" id="shop-now-btn">
+            <span class="btn-text">Shop Now</span>
+            <span class="btn-glow"></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+          <button class="modal-close interactable" id="modal-close" aria-label="Close modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- FLYING CAN CLONE (for add-to-cart arc)      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="flying-can" aria-hidden="true">
+    <img id="flying-can-img" src="" alt="">
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- JUICE TRAIL CANVAS (for arc particles)      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <canvas id="juice-trail-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CART SPLASH VFX CONTAINER                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="cart-splash-vfx" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PREMIUM OVERLAYS                            -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <!-- SEARCH OVERLAY -->
+  <div id="search-overlay" class="premium-overlay">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2 class="overlay-title">Discover Juice</h2>
+        <p class="overlay-subtitle">Find your next favorite cosmic blend</p>
+      </div>
+      <div class="premium-form">
+        <input type="text" id="juice-search-input" class="premium-input" placeholder="Type to search e.g. 'Apple'..."
+          autofocus>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT OVERLAY -->
+  <div id="account-overlay" class="premium-overlay">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2 class="overlay-title">Cosmic Access</h2>
+        <p class="overlay-subtitle">Log in to your cosmic collection</p>
+      </div>
+      <form class="premium-form" onsubmit="return false">
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" class="premium-input" placeholder="commander@starfleet.com">
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" class="premium-input" placeholder="••••••••">
+        </div>
+        <button class="premium-btn interactable">Secure Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TRACK ORDER OVERLAY -->
+  <div id="track-overlay" class="premium-overlay">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2 class="overlay-title">Track Shipment</h2>
+        <p class="overlay-subtitle">Follow your juice through the galaxy</p>
+      </div>
+      <div class="tracking-content">
+        <div class="premium-form">
+          <input type="text" class="premium-input" placeholder="Order ID: GJ-8829-X">
+          <button class="premium-btn interactable">Locate Package</button>
+        </div>
+        <div class="tracking-steps">
+          <div class="step active">
+            <div class="step-dot"></div><span class="step-label">Ordered</span>
+          </div>
+          <div class="step active">
+            <div class="step-dot"></div><span class="step-label">Extracted</span>
+          </div>
+          <div class="step">
+            <div class="step-dot"></div><span class="step-label">Transit</span>
+          </div>
+          <div class="step">
+            <div class="step-dot"></div><span class="step-label">Arrival</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPPORT OVERLAY -->
+  <div id="support-overlay" class="premium-overlay">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2 class="overlay-title">Mission Control</h2>
+        <p class="overlay-subtitle">We're here to assist your journey</p>
+      </div>
+      <div class="premium-form">
+        <div class="input-group">
+          <label>How can we help?</label>
+          <textarea class="premium-input" rows="4" placeholder="Your message..."></textarea>
+        </div>
+        <button class="premium-btn interactable">Transmit Message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMUNITY OVERLAY -->
+  <div id="community-overlay" class="premium-overlay">
+    <div class="overlay-backdrop"></div>
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2 class="overlay-title">Join The Fleet</h2>
+        <p class="overlay-subtitle">Exclusive access to limited extractions</p>
+      </div>
+      <div class="premium-form">
+        <input type="email" class="premium-input" placeholder="Enter your email">
+        <button class="premium-btn interactable">Join Community</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- MAIN ENGINE                                 -->
+  <!-- ═══════════════════════════════════════════ -->
+  <script type="module" src="./src/main.js"></script>
+
+</body>
+
+</html>
